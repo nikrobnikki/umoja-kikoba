@@ -6,7 +6,7 @@ services:
     rootDir: .
     buildCommand: |
       npm install --prefix server
-      npm install --prefix client
+      npm install --include=dev --prefix client
       npm --prefix client run build
     startCommand: npm --prefix server start
     envVars:
@@ -19,5 +19,5 @@ services:
       - key: SETUP_KEY
         value: kikoba_setup_2026
       - key: CORS_ORIGIN
-        value: https://your-render-frontend-url.onrender.com
+        value: https://umoja-kikoba-production.onrender.com
     autoDeploy: true
