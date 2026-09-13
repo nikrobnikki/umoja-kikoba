@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useApp } from '../App.jsx';
 import * as api from '../api/index.js';
-import { fmt, isoWeek, getMonthWikiOptions, MONTHS_SW } from '../utils.js';
+import { fmt, isoWeek, dateLabel, getMonthWikiOptions, MONTHS_SW } from '../utils.js';
 
 /* ── helpers ── */
 function buildEmptyForm(memberId, wikiOptions, settings) {
@@ -97,6 +97,22 @@ export default function EntryForm() {
       return next;
     });
   }
+
+  function dateForOffset(dateStr, offset) {
+    const date = new Date(`${dateStr}T00:00:00`);
+    date.setDate(date.getDate() + offset);
+    return date.toISOString().slice(0, 10);
+  }
+
+  const selectedWiki = wikiOptions.find(option => option.value === form.tarehe)
+    || wikiOptions.find(option => {
+      const start = dateForOffset(option.value, -4);
+      const end = dateForOffset(option.value, 2);
+      return form.tarehe >= start && form.tarehe <= end;
+    })
+    || wikiOptions[0];
+  const selectedWeekStart = selectedWiki ? dateForOffset(selectedWiki.value, -4) : '';
+  const selectedWeekEnd = selectedWiki ? dateForOffset(selectedWiki.value, 2) : '';
 
   function startEdit(e) {
     // Gundua mwezi/mwaka wa entry hii na set selectors
@@ -265,12 +281,25 @@ export default function EntryForm() {
                 {form.tarehe && (
                   <div className="wiki-selected-label">
                     ✓ Imechaguliwa: <strong>
-                      {wikiOptions.find(o => o.value === form.tarehe)
-                        ? `Wiki ${wikiOptions.find(o => o.value === form.tarehe).wiki}`
-                        : form.tarehe}
-                    </strong> — Ijumaa, {form.tarehe}
+                      Wiki {selectedWiki?.wiki || isoWeek(form.tarehe).week}
+                    </strong> — {dateLabel(form.tarehe)}
                   </div>
                 )}
+                <div className="form-field" style={{ maxWidth: 300, marginTop: 14 }}>
+                  <label className="form-label">Tarehe husika</label>
+                  <input
+                    className="form-input"
+                    type="date"
+                    required
+                    min={selectedWeekStart}
+                    max={selectedWeekEnd}
+                    value={form.tarehe}
+                    onChange={e => set('tarehe', e.target.value)}
+                  />
+                  <span className="field-hint">
+                    Chagua siku yoyote ndani ya Wiki {selectedWiki?.wiki || ''}.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
