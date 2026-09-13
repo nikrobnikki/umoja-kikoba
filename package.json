@@ -1,0 +1,20 @@
+{
+  "name": "kikoba-app",
+  "version": "1.0.0",
+  "description": "Kikoba Management System — root launcher",
+  "private": true,
+  "scripts": {
+    "install:all":  "npm install --prefix server && npm install --prefix client",
+    "dev":          "npm run dev:server & npm run dev:client",
+    "dev:server":   "npm --prefix server run dev",
+    "dev:client":   "npm --prefix client run dev",
+    "start":        "npm run start:server & npm run start:client",
+    "start:server": "npm --prefix server start",
+    "start:client": "npm --prefix client run dev",
+    "build":        "npm --prefix client run build",
+    "build:client": "npm --prefix client run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

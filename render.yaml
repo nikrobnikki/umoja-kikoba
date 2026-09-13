@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: kikoba-app
+    env: node
+    plan: free
+    rootDir: .
+    buildCommand: |
+      npm install --prefix server
+      npm install --prefix client
+      npm --prefix client run build
+    startCommand: npm --prefix server start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SETUP_KEY
+        value: kikoba_setup_2026
+      - key: CORS_ORIGIN
+        value: https://your-render-frontend-url.onrender.com
+    autoDeploy: true
