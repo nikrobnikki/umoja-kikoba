@@ -1,0 +1,25 @@
+{
+  "name": "kikoba-app",
+  "version": "1.0.0",
+  "description": "Umoja Kikoba — Mfumo wa Usimamizi wa Hisa na Jamii",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm":  ">=9.0.0"
+  },
+  "scripts": {
+    "install:all":  "npm install --prefix server && npm install --prefix client",
+    "build":        "npm --prefix client run build",
+
+    "dev":          "concurrently --names SERVER,CLIENT --prefix-colors green,cyan \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server":   "npm --prefix server run dev",
+    "dev:client":   "npm --prefix client run dev",
+
+    "start":        "npm --prefix server start",
+
+    "postinstall":  "echo 'Run: npm run install:all && npm run build'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
