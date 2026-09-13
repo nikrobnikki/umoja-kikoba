@@ -60,7 +60,7 @@ kikoba-app/
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/YOUR_USERNAME/kikoba-app.git
+git clone https://github.com/nikrobnikki/kikoba-app.git
 cd kikoba-app
 
 # 2. Sakinisha vitegemezi (server + client)
